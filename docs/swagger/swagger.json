@@ -1,0 +1,1248 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is api for beacon services",
+        "title": "Swagger API",
+        "contact": {
+            "name": "API Support",
+            "email": "paradoxfm@mail.ru"
+        },
+        "license": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/avatar/{id}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "System"
+                ],
+                "summary": "Loading avatar by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id avatar",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.AvatarResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/heartbeat": {
+            "post": {
+                "description": "Accepts coordinates from the smartphone, occurs: saving and checking for entry into neozones, updating the latest tracker data",
+                "consumes": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Monitoring"
+                ],
+                "summary": "Acceptance of coordinates from a smartphone",
+                "parameters": [
+                    {
+                        "description": "Request with device coordinates and flags",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Heartbeat"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers": {
+            "post": {
+                "description": "Creating a new tracker for an authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Create a new tracker",
+                "parameters": [
+                    {
+                        "description": "Запрос на создание треккера",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TrackCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TrackCreateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/all": {
+            "get": {
+                "description": "Load all trackers for an authorized user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Load all trackers",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Tracker"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/avatar/{id}": {
+            "put": {
+                "description": "Update avatar tracker for authorized user (jpeg 250x250)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Update avatar tracker",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id tracker",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "avatar",
+                        "name": "avatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.AvatarIdResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/custom": {
+            "post": {
+                "description": "Load custom trackers by ids for an authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Load custom trackers by ids",
+                "parameters": [
+                    {
+                        "description": "Запрос на отдельные трекеры",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TracksByIdsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Tracker"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/delete/{id}": {
+            "delete": {
+                "description": "Delete the tracker for an authorized user, if the tracker is associated with several users, then only unlink",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Delete tracker",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id tracker",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/find/{id}": {
+            "get": {
+                "description": "Load tracker by id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Load tracker",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id tracker",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Tracker"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/geo/history": {
+            "post": {
+                "description": "Getting history for tracker for the period",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Tracker history",
+                "parameters": [
+                    {
+                        "description": "Request tracker history",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TracksHistRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.TrackHistoryResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/trackers/update/{id}": {
+            "put": {
+                "description": "Update tracker properties for authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Trackers"
+                ],
+                "summary": "Update tracker",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id трекера",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Запрос на редактирование трекера",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TrackPrefRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/login": {
+            "post": {
+                "description": "User Authorization by Login/Password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User Authorization",
+                "parameters": [
+                    {
+                        "description": "Login: Password",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.LoginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.LoginResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/me": {
+            "get": {
+                "description": "Getting a user profile",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Profile request",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ProfileResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/me/avatar": {
+            "put": {
+                "description": "Update user avatar (jpeg 250x250)",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user avatar",
+                "parameters": [
+                    {
+                        "description": "avatar",
+                        "name": "avatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.AvatarIdResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/me/password": {
+            "put": {
+                "description": "Change user password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Change password",
+                "parameters": [
+                    {
+                        "description": "Password change request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ChangePasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/me/push": {
+            "put": {
+                "description": "Update user push id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user push id",
+                "parameters": [
+                    {
+                        "description": "Request with push id",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.UpdatePushRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/password/reset": {
+            "post": {
+                "description": "Reset user password by email",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Password reset",
+                "parameters": [
+                    {
+                        "description": "Password reset request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ResetPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/users/signUp": {
+            "post": {
+                "description": "User registration email + password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "User registration",
+                "parameters": [
+                    {
+                        "description": "Registration Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.RegistrationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/zone/all": {
+            "get": {
+                "description": "Getting a list of zones for an authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Zone list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.GeoZoneResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/zone/delete/{id}": {
+            "delete": {
+                "description": "Deleting a zone for an authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Deleting a zone",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id zone",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/zone/find/{id}": {
+            "get": {
+                "description": "Loading zone for authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Loading zone",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id zone",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.GeoZoneResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/zone/save": {
+            "post": {
+                "description": "Creating a zone for an authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Creating a zone",
+                "parameters": [
+                    {
+                        "description": "Request with zone settings",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ZoneCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.GeoZoneResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/zone/snap/{id}": {
+            "put": {
+                "description": "Linking the zone to the tracker list",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Zone binding",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id зоны",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request linking trackers to a zone",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ZoneSnapRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        },
+        "/zone/update/{id}": {
+            "put": {
+                "description": "Updating zone settings for an authorized user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Zones"
+                ],
+                "summary": "Zone update",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id зоны",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Request with zone settings",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ZoneCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok"
+                    },
+                    "400": {
+                        "description": "err"
+                    },
+                    "500": {
+                        "description": "err"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.AvatarIdResponse": {
+            "type": "object",
+            "properties": {
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.AvatarResponse": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string",
+                    "example": "base64"
+                }
+            }
+        },
+        "model.ChangePasswordRequest": {
+            "type": "object",
+            "properties": {
+                "new_password": {
+                    "type": "string"
+                },
+                "old_password": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.GeoZoneResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ZonePoint"
+                    }
+                },
+                "trackers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "model.Heartbeat": {
+            "type": "object",
+            "properties": {
+                "datetime": {
+                    "type": "string",
+                    "example": "RFC3339"
+                },
+                "device_id": {
+                    "type": "string"
+                },
+                "is_gps_source": {
+                    "type": "boolean"
+                },
+                "is_gsm_source": {
+                    "type": "boolean"
+                },
+                "is_low_power_alarm": {
+                    "type": "boolean"
+                },
+                "is_sos_alarm": {
+                    "type": "boolean"
+                },
+                "is_wifi_source": {
+                    "type": "boolean"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                },
+                "power": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.LoginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.LoginResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ProfileResponse": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "trackers": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.UserTracker"
+                    }
+                }
+            }
+        },
+        "model.RegistrationRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "сonfirm": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ResetPasswordRequest": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TrackCreateRequest": {
+            "type": "object",
+            "properties": {
+                "equipment_id": {
+                    "type": "string",
+                    "example": "device id"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TrackCreateResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.TrackHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "datetime": {
+                    "type": "string"
+                },
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.TrackPrefRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Tracker": {
+            "type": "object",
+            "properties": {
+                "battery_power_last": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "device_id": {
+                    "type": "string"
+                },
+                "device_type": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "latitude_last": {
+                    "type": "number"
+                },
+                "longitude_last": {
+                    "type": "number"
+                },
+                "signal_source": {
+                    "type": "integer"
+                },
+                "signal_timestamp_last": {
+                    "type": "string"
+                },
+                "updated_at": {
+                    "type": "string"
+                },
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "model.TracksByIdsRequest": {
+            "type": "object",
+            "properties": {
+                "ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "model.TracksHistRequest": {
+            "type": "object",
+            "properties": {
+                "date_end": {
+                    "type": "string",
+                    "example": "RFC3339"
+                },
+                "date_start": {
+                    "type": "string",
+                    "example": "RFC3339"
+                },
+                "tracker_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UpdatePushRequest": {
+            "type": "object",
+            "properties": {
+                "push_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserTracker": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "offset": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.ZoneCreateRequest": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.ZonePoint"
+                    }
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.ZonePoint": {
+            "type": "object",
+            "properties": {
+                "latitude": {
+                    "type": "number"
+                },
+                "longitude": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.ZoneSnapRequest": {
+            "type": "object",
+            "properties": {
+                "trackers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
